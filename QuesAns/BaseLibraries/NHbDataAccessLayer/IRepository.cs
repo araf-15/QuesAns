@@ -2,8 +2,10 @@
 
 namespace NHbDataAccessLayer
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity, TKey> where TEntity : class, IEntity<TKey>
     {
         IList<TEntity> GetAll();
+        public void Add(TEntity entity);
+        TEntity GetById(TKey id);
     }
 }

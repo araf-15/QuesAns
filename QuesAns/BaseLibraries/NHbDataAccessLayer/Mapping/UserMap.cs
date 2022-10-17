@@ -10,7 +10,7 @@ namespace NHbDataAccessLayer.Mapping
         {
             Schema("[dbo]");
             Table("[User]");
-            Id(i => i.Id, map => map.Generator(Generators.GuidComb));
+            Id(i => i.Id, map => map.Generator(Generators.Increment));
             Property(x => x.FirstName, m => { m.NotNullable(true); });
             Property(x => x.LastName, m => { m.NotNullable(true); });
         }

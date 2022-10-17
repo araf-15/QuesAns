@@ -20,5 +20,28 @@ namespace QuesAns.Areas.Admin.Controllers
             model.GetUserList();
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult AddUser()
+        {
+            var model = Startup.AutofacContainer.Resolve<UserVM>();
+            return View(model);
+        }
+
+        [ValidateAntiForgeryToken, HttpPost]
+        public IActionResult AddUser(UserVM model)
+        {
+            model.AddUser();
+            return RedirectToAction("AddUser");
+        }
+
+        [HttpGet]
+        public IActionResult EditUser(int Id)
+        {
+            var model = Startup.AutofacContainer.Resolve<UserVM>();
+            model.Id = Id;
+            model.EditUser();
+            return View(model);
+        }
     }
 }

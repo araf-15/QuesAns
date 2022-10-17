@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace NHbDataAccessLayer
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : class, IEntity<TKey>
     {
 
         #region Configure
@@ -17,6 +17,15 @@ namespace NHbDataAccessLayer
             _sessionFactory = config.BuildSessionFactory();
         }
         #endregion
+
+        public void Add(TEntity entity)
+        {
+            using (var session = _sessionFactory.OpenSession())
+            {
+                session.Save(entity);
+                session.Flush();
+            }
+        }
 
         public IList<TEntity> GetAll()
         {
@@ -31,6 +40,19 @@ namespace NHbDataAccessLayer
                 }
             }
             return list;
+        }
+
+        public TEntity GetById(TKey id)
+        {
+            var obj = new object();
+            using (var session = _sessionFactory.OpenSession())
+            {
+                using (var tx = session.BeginTransaction())
+                {
+                    obj = session.Query<TEntity>().Where(c => c.Id.ToString() == id.ToString()).FirstOrDefault();
+                }
+            }
+            return (TEntity)obj;
         }
     }
 }

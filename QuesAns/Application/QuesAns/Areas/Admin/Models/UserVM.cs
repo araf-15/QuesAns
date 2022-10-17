@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using QuesAnsLib.BusinessObjects;
 using QuesAnsLib.Services.IServices;
 using System;
 
@@ -6,7 +7,7 @@ namespace QuesAns.Areas.Admin.Models
 {
     public class UserVM
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
@@ -21,10 +22,33 @@ namespace QuesAns.Areas.Admin.Models
 
         #endregion
 
+        public void AddUser() 
+        {
+            var userBO = new UserBO
+            {
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName
+            };
+            _quesAnsService.AddUser(userBO);
+        }
+
+        public void EditUser()
+        {
+            var model = _quesAnsService.GetUser(Id);
+            Id = model.Id;
+            FirstName = model.FirstName;
+            LastName = model.LastName;
+        }
+
 
         public void GetUserList()
         {
             var userList = _quesAnsService.GetUserList();
         }
+
+
+
+        
     }
 }

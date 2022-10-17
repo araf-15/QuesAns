@@ -8,6 +8,7 @@ namespace NHbDataAccessLayer.Config
 {
     public static class ConfigurationManager
     {
+
         public static string ConnectionString { get; set; }
         public static Configuration SetConfiguration()
         {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace QuesAnsLib.Repositories.Implementation
 {
-    public class UserRepository : Repository<User>, IUserRepository
+    public class UserRepository : Repository<User, int>, IUserRepository
     {
     }
 }
