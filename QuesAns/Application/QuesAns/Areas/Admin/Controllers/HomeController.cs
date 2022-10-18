@@ -37,7 +37,7 @@ namespace QuesAns.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditUser(int Id)
+        public IActionResult EditUser(Guid Id)
         {
             var model = Startup.AutofacContainer.Resolve<UserVM>();
             model.Id = Id;
@@ -56,7 +56,7 @@ namespace QuesAns.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult DeleteUser(int Id)
+        public IActionResult DeleteUser(Guid Id)
         {
             var model = Startup.AutofacContainer.Resolve<UserVM>();
             model.Id = Id;

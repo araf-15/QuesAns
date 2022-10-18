@@ -1,13 +1,20 @@
 ﻿using NHbDataAccessLayer.Entities;
 using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace QuesAnsLib.BusinessObjects
 {
     public class UserBO
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string UserName { get; set; }
+        public string UserType { get; set; }
+        public string PasswordHash { get; set; }
+        public string InstituteName { get; set; }
+        public string InstituteId { get; set; }
 
 
         public void ValidateUserName()
@@ -27,5 +34,11 @@ namespace QuesAnsLib.BusinessObjects
             return userBO;
         }
 
+        public void MakeHashedPassword()
+        {
+            var sha = SHA256.Create();
+            var asByteArray = Encoding.Default.GetBytes(PasswordHash);
+            PasswordHash = Convert.ToBase64String(sha.ComputeHash(asByteArray)) ;
+        }
     }
 }

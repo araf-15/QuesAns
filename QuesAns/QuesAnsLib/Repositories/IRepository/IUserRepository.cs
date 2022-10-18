@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace QuesAnsLib.Repositories.IRepository
 {
-    public interface IUserRepository : IRepository<User, int>
+    public interface IUserRepository : IRepository<User, Guid>
     {
         
     }

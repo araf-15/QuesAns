@@ -2,6 +2,7 @@
 using NHibernate;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NHbDataAccessLayer
 {
@@ -18,13 +19,15 @@ namespace NHbDataAccessLayer
         }
         #endregion
 
-        public void Add(TEntity entity)
+        public async Task<object> Add(TEntity entity)
         {
+            var obj = new object();
             using (var session = _sessionFactory.OpenSession())
             {
-                session.Save(entity);
-                session.Flush();
+                obj = await session.SaveAsync(entity);
+                await session.FlushAsync();
             }
+            return obj;
         }
 
         
@@ -35,11 +38,13 @@ namespace NHbDataAccessLayer
 
             using (var session = _sessionFactory.OpenSession())
             {
-                using (var tx = session.BeginTransaction())
-                {
-                    list = session.Query<TEntity>().ToList();
-                    tx.Commit();
-                }
+                list = session.Query<TEntity>().ToList();
+
+                //using (var tx = session.BeginTransaction())
+                //{
+                //    list = session.Query<TEntity>().ToList();
+                //    tx.Commit();
+                //}
             }
             return list;
         }

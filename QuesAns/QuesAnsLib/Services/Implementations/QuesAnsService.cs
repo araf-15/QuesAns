@@ -2,8 +2,10 @@
 using QuesAnsLib.BusinessObjects;
 using QuesAnsLib.Services.IServices;
 using QuesAnsLib.UnitOfWorks.IUnitOfWorks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BO = QuesAnsLib.BusinessObjects;
 
 namespace QuesAnsLib.Services.Implementations
@@ -17,21 +19,26 @@ namespace QuesAnsLib.Services.Implementations
             _quesAnsUnitOfWork = quesAnsUnitOfWork;
         }
 
-        public void AddUser(UserBO model)
+        public async Task<object> AddUser(UserBO model)
         {
-            _quesAnsUnitOfWork.QuesAnsRepository.Add(new User
+            return await _quesAnsUnitOfWork.QuesAnsRepository.Add(new User
             {
                 Id = model.Id,
                 FirstName = model.FirstName,
-                LastName = model.LastName
+                LastName = model.LastName,
+                UserName = model.UserName,
+                UserType = model.UserType,
+                PasswordHash = model.PasswordHash,
+                InstituteName = model.InstituteName,
+                InstituteId = model.InstituteId
+
             });
         }
 
-        public UserBO GetUser(int Id)
+        public UserBO GetUser(Guid Id)
         {
             var user = _quesAnsUnitOfWork.QuesAnsRepository.GetById(Id);
             return BO.UserBO.ConvertToSelf(user);
-
         }
 
         public List<User> GetUserList()
@@ -53,8 +60,7 @@ namespace QuesAnsLib.Services.Implementations
             _quesAnsUnitOfWork.QuesAnsRepository.Update(userEntity);
         }
 
-
-        public void DeleteUser(int id)
+        public void DeleteUser(Guid id)
         {
             var userEntity = _quesAnsUnitOfWork.QuesAnsRepository.GetById(id);
 

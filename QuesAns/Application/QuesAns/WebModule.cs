@@ -33,7 +33,8 @@ namespace QuesAns
 
             //builder.RegisterType<IndexModel>().AsSelf();
             builder.RegisterType<UserEmailOptionsModel>().AsSelf();
-            builder.RegisterType<UserVM>().AsSelf();
+            builder.RegisterType<Areas.Admin.Models.UserVM>().AsSelf();
+            builder.RegisterType<Models.AccountModels.UserVM>().AsSelf();
             base.Load(builder);
         }
     }
