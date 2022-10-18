@@ -43,11 +43,17 @@
                 <span asp-validation-for="InstituteId" class="text-danger"></span>
             </div>
 
+            @*<div class="form-group">
+            <label>User Type *</label>
+            <input asp-for="UserType" class="form-control" />
+            <span asp-validation-for="UserType" class="text-danger"></span>
+        </div>*@
+
             <div class="form-group">
                 <label>User Type *</label>
-                <input asp-for="UserType" class="form-control" />
-                <span asp-validation-for="UserType" class="text-danger"></span>
+                <select asp-for="UserType" asp-items="@Model.UserTypeLookup" class="form-control dd-type"></select>
             </div>
+
 
             <div class="form-group">
                 <label>Password *</label>

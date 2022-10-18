@@ -7,7 +7,7 @@ using System;
 namespace QuesAns.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin, SuperAdmin")]
+    //[Authorize(Roles = "Admin, SuperAdmin")]s
     public class HomeController : Controller
     {
         public IActionResult Index()

@@ -66,5 +66,15 @@ namespace QuesAnsLib.Services.Implementations
 
             _quesAnsUnitOfWork.QuesAnsRepository.Delete(userEntity);
         }
+
+        public UserBO IsLoggedIn(string userName, string password)
+        {
+            var user = _quesAnsUnitOfWork.QuesAnsRepository.IsLoggedIn(userName, password);
+            if(user != null)
+            {
+                return BO.UserBO.ConvertToSelf(user);
+            }
+            return null;
+        }
     }
 }

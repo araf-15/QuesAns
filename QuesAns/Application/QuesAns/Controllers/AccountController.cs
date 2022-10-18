@@ -1,6 +1,9 @@
 ﻿using Autofac;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuesAns.Models.AccountModels;
+using QuesAns.Utility;
+using System;
 using System.Threading.Tasks;
 
 namespace QuesAns.Controllers
@@ -8,8 +11,12 @@ namespace QuesAns.Controllers
     public class AccountController : Controller
     {
         #region Configure
+        private readonly DropdownService _dropdownService;
 
-
+        public AccountController(DropdownService dropdownService)
+        {
+            _dropdownService = dropdownService;
+        }
 
         #endregion
 
@@ -18,6 +25,7 @@ namespace QuesAns.Controllers
         public async Task<IActionResult> Register()
         {
             var model = Startup.AutofacContainer.Resolve<UserVM>();
+            model.UserTypeLookup = _dropdownService.GetUserTypeSelectListItems();
             return View(model);
         }
 
@@ -29,75 +37,38 @@ namespace QuesAns.Controllers
             await model.RegisterUser();
             return RedirectToAction("Register");
         }
-
         #endregion
 
 
 
         #region Login
-        //public async Task<IActionResult> Login(string returnUrl = null)
-        //{
-        //    var model = new LoginModel();
-        //    if (!string.IsNullOrEmpty(model.ErrorMessage))
-        //    {
-        //        ModelState.AddModelError(string.Empty, model.ErrorMessage);
-        //    }
+        [HttpGet]
+        public async Task<IActionResult> Login()
+        {
+            //HttpContext.Session.SetString("Role", "T");
+            var model = Startup.AutofacContainer.Resolve<UserVM>();
+            return View(model);
+        }
 
-        //    returnUrl = returnUrl ?? Url.Content("~/");
+        [ValidateAntiForgeryToken, HttpPost]
+        public async Task<IActionResult> Login(UserVM model)
+        {
+            model.GetLoginUser();
 
-        //    // Clear the existing external cookie to ensure a clean login process
-        //    await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            if(model.Id != Guid.Empty)
+            {
+                HttpContext.Session.SetString("Id", model.Id.ToString());
+                HttpContext.Session.SetString("UserName", model.UserName);
+                HttpContext.Session.SetString("UserType", model.UserType);
 
-        //    model.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-        //    model.ReturnUrl = returnUrl;
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> Login(LoginModel model, string returnUrl = null)
-        //{
-        //    returnUrl = returnUrl ?? Url.Content("~/");
-
-        //    if (ModelState.IsValid)
-        //    {
-
-        //        var user = await _userManager.FindByEmailAsync(model.Email);
-
-        //        if (user != null && !user.EmailConfirmed && (await _userManager.CheckPasswordAsync(user, model.Password)))
-        //        {
-        //            ModelState.AddModelError(string.Empty, "Email not confirmed yet");
-        //            return View(model);
-        //        }
-
-        //        // This doesn't count login failures towards account lockout
-        //        // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-        //        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-
-        //        if (result.Succeeded)
-        //        {
-        //            _logger.LogInformation("User logged in.");
-        //            return LocalRedirect(returnUrl);
-        //        }
-        //        if (result.RequiresTwoFactor)
-        //        {
-        //            return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-        //        }
-        //        if (result.IsLockedOut)
-        //        {
-        //            _logger.LogWarning("User account locked out.");
-        //            return RedirectToPage("./Lockout");
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-        //            return View(model);
-        //        }
-        //    }
-
-        //    // If we got this far, something failed, redisplay form
-        //    return View(model);
-        //}
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
+        
         #endregion
 
 

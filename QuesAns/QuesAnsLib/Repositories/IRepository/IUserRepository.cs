@@ -7,6 +7,6 @@ namespace QuesAnsLib.Repositories.IRepository
 {
     public interface IUserRepository : IRepository<User, Guid>
     {
-        
+        User IsLoggedIn(string userName, string password);
     }
 }

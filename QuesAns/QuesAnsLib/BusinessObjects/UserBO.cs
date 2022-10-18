@@ -29,7 +29,12 @@ namespace QuesAnsLib.BusinessObjects
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                UserName = user.UserName,
+                InstituteName = user.InstituteName,
+                InstituteId = user.InstituteId,
+                UserType = user.UserType,
+                PasswordHash = user.PasswordHash
             };
             return userBO;
         }

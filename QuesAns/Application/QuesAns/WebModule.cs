@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using QuesAns.Areas.Admin.Models;
+using QuesAns.Utility;
 
 namespace QuesAns
 {
@@ -35,6 +36,8 @@ namespace QuesAns
             builder.RegisterType<UserEmailOptionsModel>().AsSelf();
             builder.RegisterType<Areas.Admin.Models.UserVM>().AsSelf();
             builder.RegisterType<Models.AccountModels.UserVM>().AsSelf();
+            builder.RegisterType<DropdownService>().AsSelf();
+            builder.RegisterType<ApplicationService>().AsSelf();
             base.Load(builder);
         }
     }

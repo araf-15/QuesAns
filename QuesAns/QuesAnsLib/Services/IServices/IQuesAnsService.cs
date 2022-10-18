@@ -15,6 +15,7 @@ namespace QuesAnsLib.Services.IServices
 
         UserBO GetUser(Guid Id);
         void UpdateUser(BO.UserBO userBO);
-        void DeleteUser(Guid Id);
+        void DeleteUser(Guid id);
+        UserBO IsLoggedIn(string userName, string password);
     }
 }
