@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuesAns.Areas.Admin.Models;
+using System;
 
 namespace QuesAns.Areas.Admin.Controllers
 {
@@ -40,8 +41,22 @@ namespace QuesAns.Areas.Admin.Controllers
         {
             var model = Startup.AutofacContainer.Resolve<UserVM>();
             model.Id = Id;
-            model.EditUser();
+            model.LoadtUser();
             return View(model);
         }
+
+        [ValidateAntiForgeryToken, HttpPost]
+        public IActionResult EditUser(UserVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.UpdateUser();
+                return RedirectToAction("Index");
+            }
+            return View();
+
+        }
+
+
     }
 }

@@ -54,5 +54,14 @@ namespace NHbDataAccessLayer
             }
             return (TEntity)obj;
         }
+
+        public void Update(TEntity entity)
+        {
+            using (var session = _sessionFactory.OpenSession())
+            {
+                session.Update(entity);
+                session.Flush();
+            }
+        }
     }
 }

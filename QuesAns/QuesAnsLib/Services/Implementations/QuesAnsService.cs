@@ -39,5 +39,18 @@ namespace QuesAnsLib.Services.Implementations
             var userList = _quesAnsUnitOfWork.QuesAnsRepository.GetAll().ToList();
             return userList;
         }
+
+        public void UpdateUser(UserBO userBO)
+        {
+            var userEntity = _quesAnsUnitOfWork.QuesAnsRepository.GetById(userBO.Id);
+
+            if(userEntity != null)
+            {
+                userEntity.FirstName = userBO.FirstName;
+                userEntity.LastName = userBO.LastName;
+            }
+
+            _quesAnsUnitOfWork.QuesAnsRepository.Update(userEntity);
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace QuesAns.Areas.Admin.Models
 
         #endregion
 
-        public void AddUser() 
+        public void AddUser()
         {
             var userBO = new UserBO
             {
@@ -33,12 +33,18 @@ namespace QuesAns.Areas.Admin.Models
             _quesAnsService.AddUser(userBO);
         }
 
-        public void EditUser()
+        public void LoadtUser()
         {
             var model = _quesAnsService.GetUser(Id);
             Id = model.Id;
             FirstName = model.FirstName;
             LastName = model.LastName;
+        }
+
+        public void UpdateUser()
+        {
+            var userBO = ConvertToBOUser();
+            _quesAnsService.UpdateUser(userBO);
         }
 
 
@@ -47,7 +53,16 @@ namespace QuesAns.Areas.Admin.Models
             var userList = _quesAnsService.GetUserList();
         }
 
-
+        public UserBO ConvertToBOUser()
+        {
+            var userBO = new UserBO
+            {
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName
+            };
+            return userBO;
+        }
 
         
     }

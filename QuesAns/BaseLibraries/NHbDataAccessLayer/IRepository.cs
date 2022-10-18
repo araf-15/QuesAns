@@ -7,5 +7,6 @@ namespace NHbDataAccessLayer
         IList<TEntity> GetAll();
         public void Add(TEntity entity);
         TEntity GetById(TKey id);
+        void Update(TEntity entity);
     }
 }

@@ -2,6 +2,7 @@
 using QuesAnsLib.BusinessObjects;
 using System;
 using System.Collections.Generic;
+using BO = QuesAnsLib.BusinessObjects;
 using System.Text;
 
 namespace QuesAnsLib.Services.IServices
@@ -12,5 +13,6 @@ namespace QuesAnsLib.Services.IServices
         void AddUser(UserBO model);
 
         UserBO GetUser(int Id);
+        void UpdateUser(BO.UserBO userBO);
     }
 }
