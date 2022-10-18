@@ -52,5 +52,13 @@ namespace QuesAnsLib.Services.Implementations
 
             _quesAnsUnitOfWork.QuesAnsRepository.Update(userEntity);
         }
+
+
+        public void DeleteUser(int id)
+        {
+            var userEntity = _quesAnsUnitOfWork.QuesAnsRepository.GetById(id);
+
+            _quesAnsUnitOfWork.QuesAnsRepository.Delete(userEntity);
+        }
     }
 }

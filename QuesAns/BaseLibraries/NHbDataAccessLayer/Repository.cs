@@ -27,6 +27,8 @@ namespace NHbDataAccessLayer
             }
         }
 
+        
+
         public IList<TEntity> GetAll()
         {
             var list = new List<TEntity>();
@@ -60,6 +62,15 @@ namespace NHbDataAccessLayer
             using (var session = _sessionFactory.OpenSession())
             {
                 session.Update(entity);
+                session.Flush();
+            }
+        }
+
+        public void Delete(TEntity entity)
+        {
+            using (var session = _sessionFactory.OpenSession())
+            {
+                session.Delete(entity);
                 session.Flush();
             }
         }

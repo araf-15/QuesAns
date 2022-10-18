@@ -47,6 +47,11 @@ namespace QuesAns.Areas.Admin.Models
             _quesAnsService.UpdateUser(userBO);
         }
 
+        public void DeleteUser()
+        {
+            _quesAnsService.DeleteUser(Id);
+        }
+
 
         public void GetUserList()
         {

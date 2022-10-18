@@ -14,5 +14,6 @@ namespace QuesAnsLib.Services.IServices
 
         UserBO GetUser(int Id);
         void UpdateUser(BO.UserBO userBO);
+        void DeleteUser(int Id);
     }
 }

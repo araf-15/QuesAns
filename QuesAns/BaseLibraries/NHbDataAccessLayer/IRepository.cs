@@ -8,5 +8,6 @@ namespace NHbDataAccessLayer
         public void Add(TEntity entity);
         TEntity GetById(TKey id);
         void Update(TEntity entity);
+        void Delete(TEntity entity);
     }
 }

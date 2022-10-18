@@ -54,9 +54,14 @@ namespace QuesAns.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View();
-
         }
 
-
+        public IActionResult DeleteUser(int Id)
+        {
+            var model = Startup.AutofacContainer.Resolve<UserVM>();
+            model.Id = Id;
+            model.DeleteUser();
+            return RedirectToAction("Index");
+        }
     }
 }
