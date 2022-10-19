@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QuesAns.Utility;
 using QuesAnsLib.BusinessObjects;
+using QuesAnsLib.Services.Implementations;
 using QuesAnsLib.Services.IServices;
 using System;
 using System.Collections.Generic;
@@ -30,12 +31,13 @@ namespace QuesAns.Models.AccountModels
         #region Config
 
         private readonly IQuesAnsService _quesAnsService;
+        private readonly ICashService<string, UserVM> _iCashService;
         private readonly ApplicationService _applicationService;
         public UserVM()
         {
             _quesAnsService = Startup.AutofacContainer.Resolve<IQuesAnsService>();
+            _iCashService = Startup.AutofacContainer.Resolve<ICashService<string, UserVM>>();
             _applicationService = Startup.AutofacContainer.Resolve<ApplicationService>();
-
         }
 
         #endregion
@@ -66,6 +68,20 @@ namespace QuesAns.Models.AccountModels
 
         #endregion
 
+        #region CashMemory Methods
+
+        public UserVM GetUserCashData(string userName)
+        {
+            var cashData = _iCashService.GetCashedData(userName);
+            return cashData;
+        }
+
+        public void AddUserCashedData(string key, UserVM modelValue)
+        {
+            _iCashService.Add(key, modelValue);
+        }
+
+        #endregion
 
 
         #region HelperMethods

@@ -1,23 +1,26 @@
-﻿using StackExchange.Redis;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using QuesAnsLib.Services.Implementations;
+using StackExchange.Redis;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace QuesAns.MemoryCashing
+namespace QuesAnsLib.Services.IServices
 {
-    public class MemoryCashing<TKey, TValue> : IDictionary<TKey, TValue>
+    public class CashService<TKey, TValue> : ICashService<TKey, TValue>
     {
+        #region Configuration
         private readonly IDatabase _database;
 
-        public MemoryCashing(IDatabase database, string redisKey)
+        public CashService(IDatabase database)
         {
             _database = database;
         }
+        #endregion
 
+        #region Private Method
         private string Serialize(object obj)
         {
             return JsonConvert.SerializeObject(obj);
@@ -27,7 +30,9 @@ namespace QuesAns.MemoryCashing
         {
             return JsonConvert.DeserializeObject<TValue>(value);
         }
+        #endregion
 
+        #region Public Method
         public TValue this[TKey key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public ICollection<TKey> Keys => throw new NotImplementedException();
@@ -41,12 +46,6 @@ namespace QuesAns.MemoryCashing
         public void Add(TKey key, TValue value)
         {
             _database.HashSet(Serialize(key).ToString(), Serialize(key), Serialize(value));
-        }
-
-        public TValue GetCashedData(TKey key)
-        {
-            var value = _database.HashGet(Serialize(key).ToString(), Serialize(key)).ToString();
-            return DeSerialize<TValue>(value);
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
@@ -74,6 +73,12 @@ namespace QuesAns.MemoryCashing
             throw new NotImplementedException();
         }
 
+        public TValue GetCashedData(TKey key)
+        {
+            var value = _database.HashGet(Serialize(key).ToString(), Serialize(key)).ToString();
+            return DeSerialize<TValue>(value);
+        }
+
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             throw new NotImplementedException();
@@ -98,5 +103,6 @@ namespace QuesAns.MemoryCashing
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }

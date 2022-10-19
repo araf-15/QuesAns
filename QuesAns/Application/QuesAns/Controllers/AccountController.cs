@@ -1,16 +1,10 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Nancy.Json;
-using Newtonsoft.Json;
-using QuesAns.MemoryCashing;
 using QuesAns.Models.AccountModels;
 using QuesAns.Utility;
 using StackExchange.Redis;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace QuesAns.Controllers
@@ -52,17 +46,17 @@ namespace QuesAns.Controllers
         public async Task<IActionResult> Login()
         {
             var model = Startup.AutofacContainer.Resolve<UserVM>();
-            
+
             return View(model);
         }
 
         [ValidateAntiForgeryToken, HttpPost]
         public async Task<IActionResult> Login(UserVM model)
         {
-            var userVM = new MemoryCashing<string, UserVM>(_database, "UserVM");
-            var cashedData = userVM.GetCashedData(model.UserName);
+            var cashedData = model.GetUserCashData(model.UserName);
 
-            if(cashedData != null) // Need to resolve cashed login with password verification
+            if (cashedData != null && cashedData.UserName == model.UserName
+                && cashedData.PasswordHash == model.PasswordHash)
             {
                 HttpContext.Session.SetString("Id", cashedData.Id.ToString());
                 HttpContext.Session.SetString("UserName", cashedData.UserName);
@@ -80,7 +74,7 @@ namespace QuesAns.Controllers
                     HttpContext.Session.SetString("UserName", model.UserName);
                     HttpContext.Session.SetString("UserType", model.UserType);
 
-                    userVM.Add(model.UserName, new UserVM
+                    model.AddUserCashedData(model.UserName, new UserVM
                     {
                         Id = model.Id,
                         FirstName = model.FirstName,

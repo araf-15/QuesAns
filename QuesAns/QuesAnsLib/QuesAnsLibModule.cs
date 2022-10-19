@@ -29,6 +29,7 @@ namespace QuesAnsLib
 
             //------------------Services------------------------------------------
             builder.RegisterType<QuesAnsService>().As<IQuesAnsService>().InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(CashService<,>)).As(typeof(ICashService<,>)).InstancePerLifetimeScope();
 
 
             //builder.RegisterType<IndexModel>().AsSelf();
