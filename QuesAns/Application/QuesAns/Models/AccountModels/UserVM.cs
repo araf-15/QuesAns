@@ -6,6 +6,7 @@ using QuesAnsLib.Services.Implementations;
 using QuesAnsLib.Services.IServices;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,13 +17,21 @@ namespace QuesAns.Models.AccountModels
         #region Propertise
 
         public Guid Id { get; set; }
+        [Required(ErrorMessage="Please provide your First Name")]
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [Required(ErrorMessage = "Please provide your User Name")]
         public string UserName { get; set; }
+        [Required(ErrorMessage = "Please provide User Type")]
         public string UserType { get; set; }
+        [Required(ErrorMessage = "Please provide Password")]
         public string PasswordHash { get; set; }
+        [Required(ErrorMessage = "Please provide your Institute Name")]
         public string InstituteName { get; set; }
+        [Required(ErrorMessage = "Please provide your Institute Id")]
         public string InstituteId { get; set; }
+        [Required(ErrorMessage = "Please provide Email Address")]
+        public string Email { get; set; }
 
         public IEnumerable<SelectListItem> UserTypeLookup { get; set; }
 
@@ -52,7 +61,7 @@ namespace QuesAns.Models.AccountModels
 
         public void GetLoginUser()
         {
-            var userBO = _quesAnsService.IsLoggedIn(UserName, _applicationService.HasedPassword(PasswordHash));
+            var userBO = _quesAnsService.IsLoggedIn(Email, _applicationService.HasedPassword(PasswordHash));
             if (userBO != null)
             {
                 Id = userBO.Id;
@@ -63,6 +72,7 @@ namespace QuesAns.Models.AccountModels
                 PasswordHash = userBO.PasswordHash;
                 InstituteName = userBO.InstituteName;
                 InstituteId = userBO.InstituteId;
+                Email = userBO.Email;
             }
         }
 
@@ -83,7 +93,6 @@ namespace QuesAns.Models.AccountModels
 
         #endregion
 
-
         #region HelperMethods
         private UserBO ConvertToBOUser()
         {
@@ -96,10 +105,16 @@ namespace QuesAns.Models.AccountModels
                 UserType = UserType,
                 PasswordHash = PasswordHash,
                 InstituteName = InstituteName,
-                InstituteId = InstituteId
+                InstituteId = InstituteId,
+                Email = Email
             };
             userBo.MakeHashedPassword();
             return userBo;
+        }
+
+        public string HashUserPassword(string plainText)
+        {
+            return _applicationService.HasedPassword(plainText);
         }
         #endregion
     }

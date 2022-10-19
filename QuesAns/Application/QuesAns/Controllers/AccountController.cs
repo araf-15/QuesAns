@@ -36,7 +36,14 @@ namespace QuesAns.Controllers
         [ValidateAntiForgeryToken, HttpPost]
         public async Task<IActionResult> Register(UserVM model)
         {
-            await model.RegisterUser();
+            var newUserId = await model.RegisterUser();
+            if (newUserId != null)
+            {
+                model.Id = Guid.Parse(newUserId.ToString());
+                model.PasswordHash = model.HashUserPassword(model.PasswordHash);
+                model.AddUserCashedData(model.Email, model);
+                return RedirectToAction("Login");
+            }
             return RedirectToAction("Register");
         }
         #endregion
@@ -46,17 +53,16 @@ namespace QuesAns.Controllers
         public async Task<IActionResult> Login()
         {
             var model = Startup.AutofacContainer.Resolve<UserVM>();
-
             return View(model);
         }
 
         [ValidateAntiForgeryToken, HttpPost]
         public async Task<IActionResult> Login(UserVM model)
         {
-            var cashedData = model.GetUserCashData(model.UserName);
+            var cashedData = model.GetUserCashData(model.Email);
 
-            if (cashedData != null && cashedData.UserName == model.UserName
-                && cashedData.PasswordHash == model.PasswordHash)
+            if (cashedData != null && cashedData.Email == model.Email
+                && cashedData.PasswordHash == model.HashUserPassword(model.PasswordHash))
             {
                 HttpContext.Session.SetString("Id", cashedData.Id.ToString());
                 HttpContext.Session.SetString("UserName", cashedData.UserName);
@@ -74,7 +80,7 @@ namespace QuesAns.Controllers
                     HttpContext.Session.SetString("UserName", model.UserName);
                     HttpContext.Session.SetString("UserType", model.UserType);
 
-                    model.AddUserCashedData(model.UserName, new UserVM
+                    model.AddUserCashedData(model.Email, new UserVM
                     {
                         Id = model.Id,
                         FirstName = model.FirstName,
@@ -84,6 +90,7 @@ namespace QuesAns.Controllers
                         PasswordHash = model.PasswordHash,
                         UserName = model.UserName,
                         UserType = model.UserType,
+                        Email = model.Email
                     });
 
                     return RedirectToAction("Index", "Home", new { area = "Admin" });

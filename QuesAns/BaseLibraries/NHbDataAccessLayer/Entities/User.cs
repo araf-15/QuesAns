@@ -12,5 +12,6 @@ namespace NHbDataAccessLayer.Entities
         public virtual string PasswordHash { get; set; }
         public virtual string InstituteName { get; set; }
         public virtual string InstituteId { get; set; }
+        public virtual string Email { get; set; }
     }
 }

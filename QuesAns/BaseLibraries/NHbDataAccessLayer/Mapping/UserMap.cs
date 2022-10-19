@@ -18,6 +18,7 @@ namespace NHbDataAccessLayer.Mapping
             Property(x => x.PasswordHash, m => { m.NotNullable(true); });
             Property(x => x.InstituteName, m => { m.NotNullable(true); });
             Property(x => x.InstituteId, m => { m.NotNullable(false); });
+            Property(x => x.Email, m => { m.NotNullable(true); });
         }
     }
 }

@@ -9,7 +9,7 @@ namespace QuesAns.Utility
         {
             var items = new List<SelectListItem>()
             {
-                new SelectListItem { Text = "--Select User Type--", Value = "" },
+                new SelectListItem { Text = "--Select User Type--", Value = null },
                 new SelectListItem { Text = "Student", Value = "S" },
                 new SelectListItem { Text = "Teacher", Value = "T" },
             };

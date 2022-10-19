@@ -30,7 +30,8 @@ namespace QuesAnsLib.Services.Implementations
                 UserType = model.UserType,
                 PasswordHash = model.PasswordHash,
                 InstituteName = model.InstituteName,
-                InstituteId = model.InstituteId
+                InstituteId = model.InstituteId,
+                Email = model.Email
 
             });
         }

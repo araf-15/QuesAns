@@ -21,7 +21,6 @@ namespace QuesAns.Areas.Admin.Controllers
             {
                 return RedirectToAction("Login", "Account", new { area = "" });
             }
-
         }
 
         public IActionResult GetUsers()

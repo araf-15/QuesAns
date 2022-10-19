@@ -15,6 +15,7 @@ namespace QuesAnsLib.BusinessObjects
         public string PasswordHash { get; set; }
         public string InstituteName { get; set; }
         public string InstituteId { get; set; }
+        public string Email { get; set; }
 
 
         public void ValidateUserName()
@@ -34,7 +35,8 @@ namespace QuesAnsLib.BusinessObjects
                 InstituteName = user.InstituteName,
                 InstituteId = user.InstituteId,
                 UserType = user.UserType,
-                PasswordHash = user.PasswordHash
+                PasswordHash = user.PasswordHash,
+                Email = user.Email
             };
             return userBO;
         }

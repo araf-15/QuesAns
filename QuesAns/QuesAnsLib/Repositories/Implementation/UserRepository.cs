@@ -9,12 +9,12 @@ namespace QuesAnsLib.Repositories.Implementation
 {
     public class UserRepository : Repository<User, Guid>, IUserRepository
     {
-        public User IsLoggedIn(string userName, string password)
+        public User IsLoggedIn(string email, string password)
         {
             var user = new User();
             using (var session = _sessionFactory.OpenSession())
             {
-                user = session.Query<User>().Where(c => c.UserName == userName && c.PasswordHash == password).FirstOrDefault();
+                user = session.Query<User>().Where(c => c.Email == email && c.PasswordHash == password).FirstOrDefault();
             }
             return user;
         }
