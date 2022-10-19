@@ -19,6 +19,7 @@ using NHbDataAccessLayer.Config;
 using QuesAns;
 using QuesAns.Models.AccountModels;
 using QuesAnsLib;
+using StackExchange.Redis;
 using System;
 
 namespace QuesAns
@@ -81,7 +82,7 @@ namespace QuesAns
 
             // Identity Customization started here
             services
-                .AddIdentity<ApplicationUser, Role>()
+                .AddIdentity<ApplicationUser, Membership.Entities.Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddUserManager<UserManager>()
                 .AddRoleManager<RoleManager>()
@@ -191,6 +192,10 @@ namespace QuesAns
 
 
             services.AddControllersWithViews();
+
+            var redis = ConnectionMultiplexer.Connect("localhost");
+            services.AddScoped(c => redis.GetDatabase());
+
             services.AddRazorPages();
         }
 
