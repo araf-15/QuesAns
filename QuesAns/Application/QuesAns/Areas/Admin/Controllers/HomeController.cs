@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuesAns.Areas.Admin.Models;
@@ -8,12 +7,12 @@ using System;
 namespace QuesAns.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = "Admin, SuperAdmin")]s
+    //[Authorize(Roles = "Admin, SuperAdmin")]
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
-            if(HttpContext.Session.GetString("Id") != null)
+            if (HttpContext.Session.GetString("Id") != null)
             {
                 return View();
             }

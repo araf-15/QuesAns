@@ -91,6 +91,33 @@ namespace QuesAns.Models.AccountModels
             _iCashService.Add(key, modelValue);
         }
 
+        public void LoadExistingUserToCash()
+        {
+            var userData = _quesAnsService.GetUserList();
+            foreach (var user in userData)
+            {
+                var userVm = new UserVM
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    UserName = user.UserName,
+                    InstituteName = user.InstituteName,
+                    InstituteId = user.InstituteId,
+                    PasswordHash = user.PasswordHash,
+                    UserType = user.UserType,
+                    Email = user.Email
+                };
+                _iCashService.Add(user.Email, userVm);
+            }
+        }
+
+        public bool IsUserExist(string userEmail)
+        {
+            return _iCashService.ContainsKey(userEmail);
+
+        }
+
         #endregion
 
         #region HelperMethods

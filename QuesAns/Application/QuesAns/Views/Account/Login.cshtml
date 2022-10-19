@@ -10,7 +10,7 @@
             <form id="account" method="post" asp-controller="Account" asp-action="Login">
                 <h4>Use a local account to log in.</h4>
                 <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
+                @*<div asp-validation-summary="All" class="text-danger"></div>*@
                 <div class="form-group">
                     <label>Email</label>
                     <input asp-for="Email" class="form-control" />

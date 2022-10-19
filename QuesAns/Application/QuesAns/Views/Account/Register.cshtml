@@ -11,14 +11,14 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form method="post" asp-controller="Account" asp-action="Register">
+        <form id="userRegForm" method="post">
             <h4>Create a new account.</h4>
             <hr />
             @*<div asp-validation-summary="All" class="text-danger"></div>*@
             <div class="form-group">
                 <label>First Name *</label>
                 <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <span id="firstNameValidation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Last Name</label>
@@ -27,45 +27,126 @@
             <div class="form-group">
                 <label>User Name *</label>
                 <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
+                <span id="userNameValidation" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label>Email *</label>
                 <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <span id="emailValidation" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label>Institute Name *</label>
                 <input asp-for="InstituteName" class="form-control" />
-                <span asp-validation-for="InstituteName" class="text-danger"></span>
+                <span id="instituteNameValidation" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label>Institute Id</label>
                 <input asp-for="InstituteId" class="form-control" />
-                <span asp-validation-for="InstituteId" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label>User Type *</label>
                 <select asp-for="UserType" asp-items="@Model.UserTypeLookup" class="form-control dd-type"></select>
-                <span asp-validation-for="UserType" class="text-danger"></span>
+                <span id="userTypeValidation" class="text-danger"></span>
             </div>
 
 
             <div class="form-group">
                 <label>Password *</label>
                 <input type="password" asp-for="PasswordHash" class="form-control" />
-                <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                <span id="passwordValidation" class="text-danger"></span>
             </div>
 
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="button" id="userRegSubBtn" class="btn btn-primary">Register</button>
         </form>
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+<script>
+    $(document.body).on('click', '#userRegSubBtn', function () {
+        startFormPosting('#userRegForm');
+    })
+
+    $(document.body).on('change', '#UserType', function () {
+        $('#userTypeValidation').text('');
+    })
+
+    let typingTimer;
+    let isValid = true;
+    $('#Email').on('keyup', function () {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(checkProductAvailablity, 800);
+    })
+
+    function checkProductAvailablity() {
+        let email = $("#Email").val();
+
+        const url = '/Account/CheckExistingUser';
+
+        if (email != ``) {
+            $.get(url, { userEmail: email }, function (rData) {
+                console.log(rData);
+                if (rData == true) {
+                    isValid = false;
+                    $('#emailValidation').text("Email already exist");
+                } else {
+                    isValid = true;
+                    $('#emailValidation').text("");
+                }
+            })
+        }
+    }
+
+    function startFormPosting(formId) {
+
+        let firstName = $('#FirstName').val();
+        let userName = $('#UserName').val();
+        let email = $('#Email').val();
+        let isntName = $('#InstituteName').val();
+        let userType = $('#UserType').val();
+        
+        if (firstName == '') {
+            isValid = false;
+            $('#firstNameValidation').text("Please provide your First Name");
+        } else {
+            isValid = true;
+        }
+        if (userName == '') {
+            isValid = false;
+            $('#userNameValidation').text("Please provide a User Name");
+        } else {
+            isValid = true;
+        }
+        if (email == '') {
+            isValid = false;
+            $('#emailValidation').text("Please provide Email");
+        } else {
+            isValid = true;
+        }
+        
+        if (isntName == '') {
+            isValid = false;
+            $('#instituteNameValidation').text("Please provide your Institute Name");
+        } else {
+            isValid = true;
+        }
+        if (userType == '--Select User Type--') {
+            isValid = false;
+            $('#userTypeValidation').text("Please select a User Type");
+        } else {
+            isValid = true;
+        }
+
+        if (isValid) {
+            $(formId).submit();
+        }
+    }
+
+</script>
 }

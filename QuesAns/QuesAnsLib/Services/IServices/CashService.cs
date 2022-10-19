@@ -65,7 +65,9 @@ namespace QuesAnsLib.Services.IServices
 
         public bool ContainsKey(TKey key)
         {
-            throw new NotImplementedException();
+            //var isExist = _database.HashExists(key.ToString(), Serialize(key));
+            var isExist = _database.KeyExists(Serialize(key));
+            return isExist;
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)

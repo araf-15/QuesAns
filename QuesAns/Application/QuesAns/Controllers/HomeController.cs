@@ -1,11 +1,11 @@
 ﻿using Autofac;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using QuesAns.Models;
 using QuesAns.Models.AccountModels;
 using QuesAns.Services.Contracts;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using QuesAnsLib.Services.Implementations;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -15,33 +15,30 @@ namespace QuesAns.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IEmailService _emailService;
+        private readonly ICashService<string, UserVM> _iCashService;
 
-        public HomeController(ILogger<HomeController> logger, IEmailService emailService)
+        public HomeController(ILogger<HomeController> logger,
+                              IEmailService emailService,
+                              ICashService<string, UserVM> iCashService)
         {
             _logger = logger;
             _emailService = emailService;
+            _iCashService = iCashService;
         }
 
         public async Task<IActionResult> Index()
         {
-            //var model = Startup.AutofacContainer.Resolve<UserEmailOptionsModel>();
-            //await model.SendTestEmail(model);
-
-            return View();
-
-            //var model = Startup.AutofacContainer.Resolve<IndexModel>();
-            //try
-            //{
-            //    //model.Add();
-            //    //model.GetAllProducts();
-            //    model.Name = "Aser";
-            //    //model.AddProduct();
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logger.LogError(ex, "Failed in test method");
-            //}
-            //return View(model);
+            var model = Startup.AutofacContainer.Resolve<UserVM>();
+            try
+            {
+                model.LoadExistingUserToCash();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to load data");
+                return View();
+            }
         }
 
         public IActionResult Privacy()

@@ -102,6 +102,7 @@ namespace QuesAns.Controllers
             }
         }
         #endregion
+
         #region Logout
         //public async Task<IActionResult> Logout(string returnUrl = null)
         //{
@@ -116,6 +117,16 @@ namespace QuesAns.Controllers
         //        return RedirectToAction("Login");
         //    }
         //}
+        #endregion
+
+        #region Helper Methods
+        public bool CheckExistingUser(string userEmail)
+        {
+            var model = Startup.AutofacContainer.Resolve<UserVM>();
+            var isExist = model.IsUserExist(userEmail);
+            return isExist;
+        }
+
         #endregion
     }
 }

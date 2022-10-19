@@ -19,6 +19,7 @@ using NHbDataAccessLayer.Config;
 using QuesAns;
 using QuesAns.Models.AccountModels;
 using QuesAnsLib;
+using QuesAnsLib.Services.Implementations;
 using StackExchange.Redis;
 using System;
 
@@ -49,8 +50,6 @@ namespace QuesAns
             var migrationAssemblyName = typeof(Startup).Assembly.FullName;
 
             builder.RegisterModule(new WebModule(connectionString, migrationAssemblyName, WebHostEnvironment));
-            //builder.RegisterModule(new FoundationModule(connectionString, migrationAssemblyName));
-            //builder.RegisterModule(new MembershipModule(connectionString, migrationAssemblyName));
             builder.RegisterModule(new QuesAnsLibModule(connectionString, migrationAssemblyName));
         }
 
