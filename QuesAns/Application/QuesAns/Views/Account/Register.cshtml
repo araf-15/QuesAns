@@ -69,6 +69,11 @@
     <partial name="_ValidationScriptsPartial" />
 
 <script>
+
+    let typingTimer;
+    let isValid = true;
+    let isEmailExist = true;
+
     $(document.body).on('click', '#userRegSubBtn', function () {
         startFormPosting('#userRegForm');
     })
@@ -77,26 +82,29 @@
         $('#userTypeValidation').text('');
     })
 
-    let typingTimer;
-    let isValid = true;
+    
     $('#Email').on('keyup', function () {
         clearTimeout(typingTimer);
-        typingTimer = setTimeout(checkProductAvailablity, 800);
+        typingTimer = setTimeout(checkUserEmailAvailablity, 200);
     })
 
-    function checkProductAvailablity() {
+    function checkUserEmailAvailablity() {
         let email = $("#Email").val();
-
         const url = '/Account/CheckExistingUser';
+
+        if (email == ``) {
+            $('#emailValidation').text("Please provide your Email");
+            isEmailExist = true;
+        } 
 
         if (email != ``) {
             $.get(url, { userEmail: email }, function (rData) {
                 console.log(rData);
                 if (rData == true) {
-                    isValid = false;
+                    isEmailExist = rData;
                     $('#emailValidation').text("Email already exist");
                 } else {
-                    isValid = true;
+                    isEmailExist = rData;
                     $('#emailValidation').text("");
                 }
             })
@@ -107,7 +115,6 @@
 
         let firstName = $('#FirstName').val();
         let userName = $('#UserName').val();
-        let email = $('#Email').val();
         let isntName = $('#InstituteName').val();
         let userType = $('#UserType').val();
         
@@ -123,13 +130,6 @@
         } else {
             isValid = true;
         }
-        if (email == '') {
-            isValid = false;
-            $('#emailValidation').text("Please provide Email");
-        } else {
-            isValid = true;
-        }
-        
         if (isntName == '') {
             isValid = false;
             $('#instituteNameValidation').text("Please provide your Institute Name");
@@ -143,7 +143,7 @@
             isValid = true;
         }
 
-        if (isValid) {
+        if (isValid && !isEmailExist) {
             $(formId).submit();
         }
     }
