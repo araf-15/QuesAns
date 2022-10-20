@@ -68,7 +68,7 @@ namespace QuesAns.Controllers
                 HttpContext.Session.SetString("UserName", cashedData.UserName);
                 HttpContext.Session.SetString("UserType", cashedData.UserType);
 
-                return RedirectToAction("Index", "Home", new { area = "Admin" });
+                return RedirectToAction("Index", "Home", new { area = "Student" });
             }
             else
             {
@@ -93,7 +93,7 @@ namespace QuesAns.Controllers
                         Email = model.Email
                     });
 
-                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    return RedirectToAction("Index", "Home", new { area = "Student" });
                 }
                 else
                 {
