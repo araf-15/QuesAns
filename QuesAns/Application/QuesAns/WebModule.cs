@@ -36,6 +36,8 @@ namespace QuesAns
             builder.RegisterType<UserEmailOptionsModel>().AsSelf();
             builder.RegisterType<Areas.Admin.Models.UserVM>().AsSelf();
             builder.RegisterType<Models.AccountModels.UserVM>().AsSelf();
+            builder.RegisterType<Areas.Student.Models.QuestionVM>().AsSelf();
+
             builder.RegisterType<DropdownService>().AsSelf();
             builder.RegisterType<ApplicationService>().AsSelf();
             base.Load(builder);

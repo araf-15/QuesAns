@@ -19,6 +19,7 @@ namespace QuesAnsLib.Services.Implementations
             _quesAnsUnitOfWork = quesAnsUnitOfWork;
         }
 
+        #region QuesAns Services
         public async Task<object> AddUser(UserBO model)
         {
             return await _quesAnsUnitOfWork.QuesAnsRepository.Add(new User
@@ -77,5 +78,20 @@ namespace QuesAnsLib.Services.Implementations
             }
             return null;
         }
+        #endregion
+
+        #region Question Services
+        public async Task<object> AddQuestion(QuestionBO model)
+        {
+            return await _quesAnsUnitOfWork.QuestionRepository.Add(new Question
+            {
+                Id = model.Id,
+                QuesTitle = model.QuesTitle,
+                QuesDescription = model.QuesDescription,
+                QuesTime = model.QuesTime,
+                QuesById = model.QuesById
+            });
+        }
+        #endregion
     }
 }

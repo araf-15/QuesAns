@@ -11,10 +11,13 @@ namespace QuesAnsLib.UnitOfWorks.Implementations
     class QuesAnsUnitOfWork : UnitOfWork, IQuesAnsUnitOfWork
     {
         public IUserRepository QuesAnsRepository { get; set; }
+        public IQuestionRepository QuestionRepository { get; set; }
 
-        public QuesAnsUnitOfWork(IUserRepository quesAnsRepository)
+        public QuesAnsUnitOfWork(IUserRepository quesAnsRepository,
+                                 IQuestionRepository questionRepository)
         {
             QuesAnsRepository = quesAnsRepository;
+            QuestionRepository = questionRepository;
         }
     }
 }

@@ -1,0 +1,43 @@
+﻿
+@model QuesAns.Areas.Student.Models.QuestionVM
+
+@{
+    ViewData["Title"] = "Make A Question";
+}
+
+<div class="card card-warning">
+    <div class="card-header">
+        <h3 class="card-title">Make A Question</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <form asp-controller="Operation" asp-action="MakeQuestion">
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" asp-for="QuesTitle" class="form-control" placeholder="Enter ...">
+                        <span asp-validation-for="QuesTitle" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- textarea -->
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea asp-for="QuesDescription" class="form-control" rows="6" placeholder="Enter ..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /.card-body -->
+</div>

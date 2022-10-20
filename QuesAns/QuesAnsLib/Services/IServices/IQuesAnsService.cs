@@ -10,6 +10,7 @@ namespace QuesAnsLib.Services.IServices
 {
     public interface IQuesAnsService
     {
+        #region User Services
         List<User> GetUserList();
         Task<object> AddUser(UserBO model);
 
@@ -17,5 +18,13 @@ namespace QuesAnsLib.Services.IServices
         void UpdateUser(BO.UserBO userBO);
         void DeleteUser(Guid id);
         UserBO IsLoggedIn(string userName, string password);
+
+        #endregion
+
+        #region Student Services
+        Task<object> AddQuestion(QuestionBO model);
+
+
+        #endregion
     }
 }

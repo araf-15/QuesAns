@@ -104,19 +104,15 @@ namespace QuesAns.Controllers
         #endregion
 
         #region Logout
-        //public async Task<IActionResult> Logout(string returnUrl = null)
-        //{
-        //    await _signInManager.SignOutAsync();
-        //    //_logger.LogInformation("User logged out.");
-        //    if (returnUrl != null)
-        //    {
-        //        return LocalRedirect(returnUrl);
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Login");
-        //    }
-        //}
+
+        public async Task<IActionResult> Logout()
+        {
+            HttpContext.Session.Remove("Id");
+            HttpContext.Session.Remove("UserName");
+            HttpContext.Session.Remove("UserType");
+            return RedirectToAction("Login","Account", new { area = ""});
+        }
+
         #endregion
 
         #region Helper Methods
@@ -126,7 +122,6 @@ namespace QuesAns.Controllers
             var isExist = model.IsUserExist(userEmail);
             return isExist;
         }
-
         #endregion
     }
 }
