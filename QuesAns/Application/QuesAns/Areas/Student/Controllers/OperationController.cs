@@ -44,7 +44,17 @@ namespace QuesAns.Areas.Student.Controllers
             model.QuesTime = DateTime.Now;
             model.QuesById = Guid.Parse(HttpContext.Session.GetString("Id").ToString());
             var addedQuestion = await model.AddQuestion();
-            return View();
+
+            model.AddQuestionToCashedData(addedQuestion.ToString(), new QuestionVM 
+            { 
+                Id = Guid.Parse(addedQuestion.ToString()),
+                QuesTitle = model.QuesTitle,
+                QuesDescription = model.QuesDescription,
+                QuesTime = model.QuesTime,
+                QuesById = model.QuesById
+            });
+
+            return RedirectToAction("MakeQuestion");
         }
 
 
