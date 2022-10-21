@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuesAns.Areas.Student.Models;
 using QuesAnsLib.Services.IServices;
-using System.Threading.Tasks;
 
 namespace QuesAns.Areas.Student.Controllers
 {
@@ -32,12 +31,6 @@ namespace QuesAns.Areas.Student.Controllers
             {
                 return RedirectToAction("Login", "Account", new { area = "" });
             }
-        }
-
-
-        public IActionResult MakeQuestion()
-        {
-            return View();
         }
     }
 }

@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuesAns.Areas.Student.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuesAns.Areas.Student.Controllers
@@ -12,13 +10,6 @@ namespace QuesAns.Areas.Student.Controllers
     [Area("Student")]
     public class OperationController : Controller
     {
-
-        #region Configuration
-        
-
-        #endregion
-
-
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("Id") != null)
@@ -33,7 +24,7 @@ namespace QuesAns.Areas.Student.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult>  MakeQuestion()
+        public async Task<IActionResult> MakeQuestion()
         {
             if (HttpContext.Session.GetString("Id") != null)
             {
@@ -53,22 +44,17 @@ namespace QuesAns.Areas.Student.Controllers
             model.QuesById = Guid.Parse(HttpContext.Session.GetString("Id").ToString());
             var addedQuestion = await model.AddQuestion();
 
-            model.AddQuestionToCashedData(addedQuestion.ToString(), new QuestionVM 
-            { 
+            model.AddQuestionToCashedData(addedQuestion.ToString(), new QuestionVM
+            {
                 Id = Guid.Parse(addedQuestion.ToString()),
                 QuesTitle = model.QuesTitle,
                 QuesDescription = model.QuesDescription,
                 QuesTime = model.QuesTime,
                 QuesById = model.QuesById,
                 QuesBy = model.QuesBy
-                
-            });
 
+            });
             return RedirectToAction("MakeQuestion");
         }
-
-
-
-
     }
 }

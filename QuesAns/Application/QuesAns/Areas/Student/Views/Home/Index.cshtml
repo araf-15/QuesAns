@@ -1,17 +1,32 @@
 ﻿
+@{ 
+    ViewData["Title"] = "Questions";
+}
 @model QuesAns.Areas.Student.Models.QuestionVM
 
 @{
     var questions = Model.Questions;
 
-    foreach (var question in questions)
+    if (questions.Count > 0)
     {
-        <div class="card-body">
-            <div class="callout callout-info">
-                <a style="text-decoration: none;" href="#"><h5><b>Q: @question.QuesTitle</b></h5></a>
-                <span>@question.QuesBy.UserName</span>
-                <p>@question.QuesDescription</p>
+        foreach (var question in questions)
+        {
+            <div class="card-body">
+                <div class="callout callout-info">
+                    <a style="text-decoration: none;" href="#"><h5><b>Q: @question.QuesTitle</b></h5></a>
+                    <span>@question.QuesBy.UserName</span><br />
+                    <span>@question.QuesTime</span>
+                    <hr />
+                    <p>@question.QuesDescription</p>
+                </div>
             </div>
-        </div>
-    }
+        }
+        }
+        else
+        {
+            <div>
+                <h2>No Question was submitted by student</h2>
+            </div>
+        }
+
 }

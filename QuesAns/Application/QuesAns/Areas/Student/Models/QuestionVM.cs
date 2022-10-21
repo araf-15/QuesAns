@@ -51,9 +51,9 @@ namespace QuesAns.Areas.Student.Models
         public async void GetQuestionList()
         {
             var questions = _quesAnsService.GetQuestionList();
-            if(questions.Count > 0)
+            Questions = new List<QuestionVM>();
+            if (questions.Count > 0)
             {
-                Questions = new List<QuestionVM>();
                 foreach (var question in questions)
                 {
                     var questionVM = new QuestionVM
