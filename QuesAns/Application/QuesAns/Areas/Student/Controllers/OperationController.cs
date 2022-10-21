@@ -21,7 +21,15 @@ namespace QuesAns.Areas.Student.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (HttpContext.Session.GetString("Id") != null)
+            {
+                var model = Startup.AutofacContainer.Resolve<QuestionVM>();
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account", new { area = "" });
+            }
         }
 
         [HttpGet]
@@ -51,7 +59,9 @@ namespace QuesAns.Areas.Student.Controllers
                 QuesTitle = model.QuesTitle,
                 QuesDescription = model.QuesDescription,
                 QuesTime = model.QuesTime,
-                QuesById = model.QuesById
+                QuesById = model.QuesById,
+                QuesBy = model.QuesBy
+                
             });
 
             return RedirectToAction("MakeQuestion");

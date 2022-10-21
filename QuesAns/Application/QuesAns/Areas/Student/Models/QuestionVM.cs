@@ -1,10 +1,13 @@
 ﻿using Autofac;
 using NHbDataAccessLayer.Entities;
+using QuesAns.Utility;
 using QuesAnsLib.BusinessObjects;
 using QuesAnsLib.Services.Implementations;
 using QuesAnsLib.Services.IServices;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuesAns.Areas.Student.Models
@@ -21,16 +24,21 @@ namespace QuesAns.Areas.Student.Models
         //--------------FK------------------------------
         public Guid QuesById { get; set; }
         public User QuesBy { get; set; }
+
+        public IList<QuestionVM> Questions { get; set; }
+
         #endregion
 
         private readonly IQuesAnsService _quesAnsService;
         private readonly ICashService<string, QuestionVM> _iCashService;
+        private readonly ApplicationService _applicationService;
 
 
         public QuestionVM()
         {
             _quesAnsService = Startup.AutofacContainer.Resolve<IQuesAnsService>();
             _iCashService = Startup.AutofacContainer.Resolve<ICashService<string, QuestionVM>>();
+            _applicationService = Startup.AutofacContainer.Resolve<ApplicationService>();
         }
 
         #region Methods
@@ -38,6 +46,29 @@ namespace QuesAns.Areas.Student.Models
         {
             var questionBO = ConvertToBOQuestion();
             return await _quesAnsService.AddQuestion(questionBO);
+        }
+
+        public async void GetQuestionList()
+        {
+            var questions = _quesAnsService.GetQuestionList();
+            if(questions.Count > 0)
+            {
+                Questions = new List<QuestionVM>();
+                foreach (var question in questions)
+                {
+                    var questionVM = new QuestionVM
+                    {
+                        Id = question.Id,
+                        QuesTitle = question.QuesTitle,
+                        QuesDescription = _applicationService.
+                                          MinifyQuestionDescription(question.QuesDescription),
+                        QuesTime = question.QuesTime,
+                        QuesById = question.QuesById,
+                        QuesBy = question.QuesBy
+                    };
+                    Questions.Add(questionVM);
+                }
+            }
         }
 
         private QuestionBO ConvertToBOQuestion()
@@ -52,6 +83,7 @@ namespace QuesAns.Areas.Student.Models
             };
             return questionBo;
         }
+
         #endregion
 
 

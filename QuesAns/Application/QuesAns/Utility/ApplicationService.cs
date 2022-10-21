@@ -17,5 +17,14 @@ namespace QuesAns.Utility
             return Convert.ToBase64String(sha.ComputeHash(asByteArray));
         }
 
+        public string MinifyQuestionDescription(string mainBody)
+        {
+            if(mainBody.Length > 200)
+            {
+                return mainBody.Substring(0, 200) + "...";
+            }
+            return mainBody;
+        }
+
     }
 }

@@ -1,6 +1,17 @@
 ﻿
-<div class="card">
-    <div class="card-header">
-        <h3>@ViewData["UserName"]</h3>
-    </div>
-</div>
+@model QuesAns.Areas.Student.Models.QuestionVM
+
+@{
+    var questions = Model.Questions;
+
+    foreach (var question in questions)
+    {
+        <div class="card-body">
+            <div class="callout callout-info">
+                <a style="text-decoration: none;" href="#"><h5><b>Q: @question.QuesTitle</b></h5></a>
+                <span>@question.QuesBy.UserName</span>
+                <p>@question.QuesDescription</p>
+            </div>
+        </div>
+    }
+}

@@ -8,5 +8,6 @@ namespace QuesAnsLib.Repositories.IRepository
 {
     public interface IQuestionRepository : IRepository<Question, Guid>
     {
+        public List<Question> GetTestQuestions();
     }
 }

@@ -11,6 +11,6 @@ namespace NHbDataAccessLayer.Entities
         public virtual DateTime QuesTime { get; set; }
 
         public virtual Guid QuesById { get; set; }
-        //public virtual User QuesBy { get; set; }
+        public virtual User QuesBy { get; set; }
     }
 }

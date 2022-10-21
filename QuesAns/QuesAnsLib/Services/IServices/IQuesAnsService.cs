@@ -23,7 +23,7 @@ namespace QuesAnsLib.Services.IServices
 
         #region Student Services
         Task<object> AddQuestion(QuestionBO model);
-
+        List<Question> GetQuestionList();
 
         #endregion
     }

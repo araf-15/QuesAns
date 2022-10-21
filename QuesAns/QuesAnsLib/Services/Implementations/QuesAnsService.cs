@@ -92,6 +92,13 @@ namespace QuesAnsLib.Services.Implementations
                 QuesById = model.QuesById
             });
         }
+
+        public List<Question> GetQuestionList()
+        {
+            var questionList = _quesAnsUnitOfWork.QuestionRepository.GetTestQuestions();
+            return questionList;
+        }
+
         #endregion
     }
 }
