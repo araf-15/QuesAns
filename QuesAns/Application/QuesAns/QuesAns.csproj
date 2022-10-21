@@ -52,6 +52,7 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Student\Data\" />
+    <Folder Include="Areas\Teacher\Data\" />
     <Folder Include="Logs\" />
     <Folder Include="wwwroot\temp\" />
   </ItemGroup>

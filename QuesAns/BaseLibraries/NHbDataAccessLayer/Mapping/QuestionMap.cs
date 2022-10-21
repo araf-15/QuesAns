@@ -10,7 +10,7 @@ namespace NHbDataAccessLayer.Mapping
         {
             Schema("[dbo]");
             Table("[Questions]");
-            Lazy(true);
+            //Lazy(true);
             Id(i => i.Id, map => map.Generator(Generators.GuidComb));
             Property(x => x.QuesTitle, m => { m.NotNullable(true); });
             Property(x => x.QuesDescription, m => { m.NotNullable(false); });

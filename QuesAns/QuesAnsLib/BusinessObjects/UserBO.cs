@@ -41,6 +41,24 @@ namespace QuesAnsLib.BusinessObjects
             return userBO;
         }
 
+        public static User ConvertToEntity(UserBO userBO)
+        {
+            var user = new User
+            {
+                Id = userBO.Id,
+                FirstName = userBO.FirstName,
+                LastName = userBO.LastName,
+                UserName = userBO.UserName,
+                Email = userBO.Email,
+                InstituteId = userBO.InstituteId,
+                InstituteName = userBO.InstituteName,
+                PasswordHash = userBO.PasswordHash,
+                UserType = userBO.UserType
+            };
+            return user;
+        }
+
+
         public void MakeHashedPassword()
         {
             var sha = SHA256.Create();

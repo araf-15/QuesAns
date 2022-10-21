@@ -7,5 +7,6 @@ namespace QuesAnsLib.UnitOfWorks.IUnitOfWorks
     {
         IUserRepository QuesAnsRepository { get; set; }
         IQuestionRepository QuestionRepository { get; set; }
+        IAnswerRepository AnswerRepository { get; set; }
     }
 }

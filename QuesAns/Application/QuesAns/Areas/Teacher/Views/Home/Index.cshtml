@@ -1,7 +1,7 @@
-﻿@{ 
+﻿@{
     ViewData["Title"] = "Questions";
 }
-@model QuesAns.Areas.Student.Models.QuestionVM
+@model QuesAns.Areas.Teacher.Models.QuestionVM
 
 @{
     var questions = Model.Questions;
@@ -12,20 +12,20 @@
         {
             <div class="card-body">
                 <div class="callout callout-info">
-                    <a style="text-decoration: none;" href="#"><h5><b>Q: @question.QuesTitle</b></h5></a>
-                    <span>@question.QuesBy.UserName</span><br />
+                    <a style="text-decoration: none;" href="/Teacher/Operation/ProvideAnswer?questionId=@question.Id" ><h5><b>Q: @question.QuesTitle</b></h5></a>
+                    <span>@question.QuesBy.FirstName @question.QuesBy.LastName</span><br />
                     <span>@question.QuesTime</span>
                     <hr />
                     <p>@question.QuesDescription</p>
                 </div>
             </div>
         }
-        }
-        else
-        {
-            <div>
-                <h2>No Question was submitted by student</h2>
-            </div>
-        }
+    }
+    else
+    {
+        <div>
+            <h2>No Question was submitted by student</h2>
+        </div>
+    }
 
 }

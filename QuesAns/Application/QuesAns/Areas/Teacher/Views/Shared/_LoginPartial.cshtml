@@ -1,0 +1,12 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+
+<ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="nav-link text-dark">@Accessor.HttpContext.Session.GetString("UserName")</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-action="Logout" asp-controller="Account" >Logout</a>
+    </li>
+</ul>
+

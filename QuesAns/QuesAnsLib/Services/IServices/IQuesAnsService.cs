@@ -15,6 +15,8 @@ namespace QuesAnsLib.Services.IServices
         Task<object> AddUser(UserBO model);
 
         UserBO GetUser(Guid Id);
+        public User GetUserEO(Guid id);
+        Question GetQuestion(Guid questionId);
         void UpdateUser(BO.UserBO userBO);
         void DeleteUser(Guid id);
         UserBO IsLoggedIn(string userName, string password);
@@ -26,5 +28,10 @@ namespace QuesAnsLib.Services.IServices
         List<Question> GetQuestionList();
 
         #endregion
+
+        #region Answer Services
+        List<Answer> GetAnswers(Guid questionId);
+        #endregion
+
     }
 }

@@ -68,7 +68,8 @@ namespace QuesAns.Controllers
                 HttpContext.Session.SetString("UserName", cashedData.UserName);
                 HttpContext.Session.SetString("UserType", cashedData.UserType);
 
-                return RedirectToAction("Index", "Home", new { area = "Student" });
+                if(cashedData.UserType == "S") return RedirectToAction("Index", "Home", new { area = "Student" });
+                else return RedirectToAction("Index", "Home", new { area = "Teacher" });
             }
             else
             {
@@ -92,8 +93,8 @@ namespace QuesAns.Controllers
                         UserType = model.UserType,
                         Email = model.Email
                     });
-
-                    return RedirectToAction("Index", "Home", new { area = "Student" });
+                    if (cashedData.UserType == "S") return RedirectToAction("Index", "Home", new { area = "Student" });
+                    else return RedirectToAction("Index", "Home", new { area = "Teacher" });
                 }
                 else
                 {
@@ -110,7 +111,7 @@ namespace QuesAns.Controllers
             HttpContext.Session.Remove("Id");
             HttpContext.Session.Remove("UserName");
             HttpContext.Session.Remove("UserType");
-            return RedirectToAction("Login","Account", new { area = ""});
+            return RedirectToAction("Login", "Account", new { area = "" });
         }
 
         #endregion

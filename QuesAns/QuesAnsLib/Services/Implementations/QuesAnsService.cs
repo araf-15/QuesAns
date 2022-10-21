@@ -43,6 +43,18 @@ namespace QuesAnsLib.Services.Implementations
             return BO.UserBO.ConvertToSelf(user);
         }
 
+        public User GetUserEO(Guid id)
+        {
+            var user = _quesAnsUnitOfWork.QuesAnsRepository.GetById(id);
+            return user;
+        }
+
+        public Question GetQuestion(Guid questionId)
+        {
+            var question = _quesAnsUnitOfWork.QuestionRepository.GetById(questionId);
+            return question;
+        }
+
         public List<User> GetUserList()
         {
             var userList = _quesAnsUnitOfWork.QuesAnsRepository.GetAll().ToList();
@@ -98,6 +110,14 @@ namespace QuesAnsLib.Services.Implementations
             var questionList = _quesAnsUnitOfWork.QuestionRepository.GetTestQuestions();
             return questionList;
         }
+
+        public List<Answer> GetAnswers(Guid questionId)
+        {
+            var answerList = _quesAnsUnitOfWork.AnswerRepository.GetAnswersByQuestionId(questionId);
+            return answerList;
+        }
+
+
 
         #endregion
     }

@@ -1,10 +1,6 @@
 ﻿using NHbDataAccessLayer;
-using NHibernate;
 using QuesAnsLib.Repositories.IRepository;
 using QuesAnsLib.UnitOfWorks.IUnitOfWorks;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace QuesAnsLib.UnitOfWorks.Implementations
 {
@@ -12,12 +8,15 @@ namespace QuesAnsLib.UnitOfWorks.Implementations
     {
         public IUserRepository QuesAnsRepository { get; set; }
         public IQuestionRepository QuestionRepository { get; set; }
+        public IAnswerRepository AnswerRepository { get; set; }
 
         public QuesAnsUnitOfWork(IUserRepository quesAnsRepository,
-                                 IQuestionRepository questionRepository)
+                                 IQuestionRepository questionRepository,
+                                 IAnswerRepository answerRepository)
         {
             QuesAnsRepository = quesAnsRepository;
             QuestionRepository = questionRepository;
+            AnswerRepository = answerRepository;
         }
     }
 }

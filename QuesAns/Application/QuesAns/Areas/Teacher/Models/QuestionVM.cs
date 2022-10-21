@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuesAns.Areas.Student.Models
+namespace QuesAns.Areas.Teacher.Models
 {
     public class QuestionVM
     {
@@ -26,6 +26,7 @@ namespace QuesAns.Areas.Student.Models
         public User QuesBy { get; set; }
 
         public IList<QuestionVM> Questions { get; set; }
+        public IList<AnswerVM> Answers { get; set; }
 
         #endregion
 
@@ -33,15 +34,14 @@ namespace QuesAns.Areas.Student.Models
         private readonly ICashService<string, QuestionVM> _iCashService;
         private readonly ApplicationService _applicationService;
 
-
         public QuestionVM()
         {
             _quesAnsService = Startup.AutofacContainer.Resolve<IQuesAnsService>();
             _iCashService = Startup.AutofacContainer.Resolve<ICashService<string, QuestionVM>>();
             _applicationService = Startup.AutofacContainer.Resolve<ApplicationService>();
         }
-
         #region Methods
+
         public async Task<object> AddQuestion()
         {
             var questionBO = ConvertToBOQuestion();
@@ -71,6 +71,44 @@ namespace QuesAns.Areas.Student.Models
             }
         }
 
+        public void GetAnswerList(Guid questionId)
+        {
+            var answersEO = _quesAnsService.GetAnswers(questionId);
+            foreach (var answer in answersEO)
+            {
+                var answerVM = new AnswerVM();
+
+                answerVM.Id = answer.Id;
+                answerVM.AnswerDescription = answer.AnswerDescription;
+                answerVM.AsnwerTime = answer.AnswerTime;
+                answerVM.AnsweById = answer.AnswerById;
+                answerVM.QuestionId = answer.QuestionId;
+
+                Answers.Add(answerVM);
+            }
+        }
+
+        public void ConvertToSelf(Guid questionId)
+        {
+            var question = _quesAnsService.GetQuestion(questionId);
+
+            Id = question.Id;
+            QuesTitle = question.QuesTitle;
+            QuesDescription = question.QuesDescription;
+            QuesTime = question.QuesTime;
+            QuesById = question.QuesById;
+
+            //var questionVM = new QuestionVM
+            //{
+            //    Id = question.Id,
+            //    QuesTitle = question.QuesTitle,
+            //    QuesDescription = question.QuesDescription,
+            //    QuesTime = question.QuesTime,
+            //    QuesById = question.QuesById
+            //};
+            //return questionVM;
+        }
+
         private QuestionBO ConvertToBOQuestion()
         {
             var questionBo = new QuestionBO
@@ -84,7 +122,6 @@ namespace QuesAns.Areas.Student.Models
             return questionBo;
         }
         #endregion
-
 
         #region CashedData Methods
         public void AddQuestionToCashedData(string key, QuestionVM modelValue)

@@ -1,23 +1,13 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using QuesAns.Areas.Student.Models;
-using QuesAnsLib.Services.IServices;
+using QuesAns.Areas.Teacher.Models;
 
-namespace QuesAns.Areas.Student.Controllers
+namespace QuesAns.Areas.Teacher.Controllers
 {
-    [Area("Student")]
+    [Area("Teacher")]
     public class HomeController : Controller
     {
-        #region Configure
-        private readonly IQuesAnsService _quesAnsService;
-
-        public HomeController()
-        {
-            _quesAnsService = Startup.AutofacContainer.Resolve<IQuesAnsService>();
-        }
-        #endregion
-        
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("Id") != null)

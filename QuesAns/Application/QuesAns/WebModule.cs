@@ -31,12 +31,13 @@ namespace QuesAns
         {
             builder.RegisterType<EmailService>().As<IEmailService>().InstancePerLifetimeScope();
 
-
             //builder.RegisterType<IndexModel>().AsSelf();
             builder.RegisterType<UserEmailOptionsModel>().AsSelf();
             builder.RegisterType<Areas.Admin.Models.UserVM>().AsSelf();
             builder.RegisterType<Models.AccountModels.UserVM>().AsSelf();
             builder.RegisterType<Areas.Student.Models.QuestionVM>().AsSelf();
+            builder.RegisterType<Areas.Teacher.Models.QuestionVM>().AsSelf();
+            builder.RegisterType<Areas.Teacher.Models.AnswerVM>().AsSelf();
 
             builder.RegisterType<DropdownService>().AsSelf();
             builder.RegisterType<ApplicationService>().AsSelf();

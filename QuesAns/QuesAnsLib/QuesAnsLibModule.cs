@@ -24,6 +24,7 @@ namespace QuesAnsLib
             //-----------Repositories--------------------------------------------
             builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
             builder.RegisterType<QuestionRepository>().As<IQuestionRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<AnswerRepository>().As<IAnswerRepository>().InstancePerLifetimeScope();
 
             //-------------------UnitOfWorks---------------------------------------
             builder.RegisterType<QuesAnsUnitOfWork>().As<IQuesAnsUnitOfWork>().InstancePerLifetimeScope();
