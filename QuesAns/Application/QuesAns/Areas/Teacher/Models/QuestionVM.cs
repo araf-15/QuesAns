@@ -101,16 +101,6 @@ namespace QuesAns.Areas.Teacher.Models
             QuesDescription = question.QuesDescription;
             QuesTime = question.QuesTime;
             QuesById = question.QuesById;
-
-            //var questionVM = new QuestionVM
-            //{
-            //    Id = question.Id,
-            //    QuesTitle = question.QuesTitle,
-            //    QuesDescription = question.QuesDescription,
-            //    QuesTime = question.QuesTime,
-            //    QuesById = question.QuesById
-            //};
-            //return questionVM;
         }
 
         private QuestionBO ConvertToBOQuestion()

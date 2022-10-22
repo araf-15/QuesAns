@@ -26,6 +26,7 @@ namespace QuesAns.Areas.Student.Models
         public User QuesBy { get; set; }
 
         public IList<QuestionVM> Questions { get; set; }
+        public IList<AnswerVM> Answers { get; set; }
 
         #endregion
 
@@ -71,6 +72,27 @@ namespace QuesAns.Areas.Student.Models
             }
         }
 
+        public void GetAnswerList(Guid questionId)
+        {
+            var answersEO = _quesAnsService.GetAnswers(questionId);
+            Answers = new List<AnswerVM>();
+            foreach (var answer in answersEO)
+            {
+                var answerVM = new AnswerVM();
+
+                answerVM.Id = answer.Id;
+                answerVM.AnswerDescription = answer.AnswerDescription;
+                answerVM.AsnwerTime = answer.AnswerTime;
+                answerVM.AnsweById = answer.AnswerById;
+                answerVM.QuestionId = answer.QuestionId;
+                var userEO = _quesAnsService.GetUserEO(answer.AnswerById);
+                answerVM.AnswerBy = userEO;
+
+                Answers.Add(answerVM);
+            }
+        }
+
+
         private QuestionBO ConvertToBOQuestion()
         {
             var questionBo = new QuestionBO
@@ -83,6 +105,19 @@ namespace QuesAns.Areas.Student.Models
             };
             return questionBo;
         }
+
+        public void ConvertToSelf(Guid questionId)
+        {
+            var question = _quesAnsService.GetQuestion(questionId);
+
+            Id = question.Id;
+            QuesTitle = question.QuesTitle;
+            QuesDescription = question.QuesDescription;
+            QuesTime = question.QuesTime;
+            QuesById = question.QuesById;
+        }
+
+
         #endregion
 
 

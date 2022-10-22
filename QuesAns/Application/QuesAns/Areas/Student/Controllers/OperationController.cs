@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuesAns.Areas.Student.Models;
+using QuesAnsLib.Services.IServices;
 using System;
 using System.Threading.Tasks;
 
@@ -10,6 +11,13 @@ namespace QuesAns.Areas.Student.Controllers
     [Area("Student")]
     public class OperationController : Controller
     {
+
+        private readonly IQuesAnsService _quesAnsService;
+        public OperationController()
+        {
+            _quesAnsService = Startup.AutofacContainer.Resolve<IQuesAnsService>();
+        }
+
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("Id") != null)
@@ -56,5 +64,33 @@ namespace QuesAns.Areas.Student.Controllers
             });
             return RedirectToAction("MakeQuestion");
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ProvideAnswer(Guid questionId)
+        {
+            if (HttpContext.Session.GetString("Id") != null)
+            {
+                var model = Startup.AutofacContainer.Resolve<QuestionVM>();
+                model.ConvertToSelf(questionId);
+                var quesBy = _quesAnsService.GetUserEO(model.QuesById);
+                model.QuesBy = quesBy;
+                model.GetAnswerList(questionId);
+
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account", new { area = "" });
+            }
+        }
+
+
+
+
+
+
+
+
     }
 }
