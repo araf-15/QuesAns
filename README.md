@@ -8,7 +8,7 @@ QuesAns Application is a online medium for teacher and student community. Where 
 4) MSSQL (Database)
 
 #How to use:
-1)  Before run this application make sure ypur Redis cash server is runnig.
+1)  Before run this application make sure ypur Redis cash server is runnig and Execute the DB Script insde 'DBScripts' File
 2)  Open this application from Visual Studion 2019 and Run Application.
 3)  A Wellcome page will be render.
 4)  Go for Register button on top right corner.
