@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NHbDataAccessLayer.Entities;
 using QuesAns.Areas.Teacher.Models;
 using QuesAnsLib.Services.IServices;
 using System;
@@ -29,13 +28,11 @@ namespace QuesAns.Areas.Teacher.Controllers
         {
             if (HttpContext.Session.GetString("Id") != null)
             {
-                //var question = _quesAnsService.GetQuestion(questionId);
                 var model = Startup.AutofacContainer.Resolve<QuestionVM>();
                 model.ConvertToSelf(questionId);
                 var quesBy = _quesAnsService.GetUserEO(model.QuesById);
                 model.QuesBy = quesBy;
                 model.GetAnswerList(questionId);
-                //var answerBy = _quesAnsService.GetUserEO(model.A);
 
                 return View(model);
             }
@@ -46,12 +43,19 @@ namespace QuesAns.Areas.Teacher.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ProvideAnswer(AnswerVM model)
+        public async Task<IActionResult> ProvideAnswer(QuestionVM model)
         {
+            if (HttpContext.Session.GetString("Id") != null)
+            {
+                model.Answer.AsnwerTime = DateTime.Now;
+                model.Answer.SubmitAnswer();
 
-            return View();
+                return RedirectToAction("ProvideAnswer", new { questionId = Guid.Parse(model.Id.ToString())});
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account", new { area = "" });
+            }
         }
-
-
     }
 }

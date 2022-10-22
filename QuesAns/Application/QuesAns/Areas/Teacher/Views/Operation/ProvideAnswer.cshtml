@@ -1,6 +1,9 @@
 ﻿@model QuesAns.Areas.Teacher.Models.QuestionVM;
 
-@{ 
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+
+@{
     ViewData["Title"] = "Question";
 }
 
@@ -47,19 +50,22 @@
         }
         <!-- /.card-footer -->
         <div class="card-footer">
-            <form action="#" method="post">
+            <form asp-controller="Operation" asp-action="ProvideAnswer" method="post">
+                <input type="hidden" asp-for="@Model.Id" value="@Model.Id" />
+                <input type="hidden" asp-for="Answer.AnsweById" value="@Accessor.HttpContext.Session.GetString("Id")" />
+                <input type="hidden" asp-for="Answer.QuestionId" value="@Model.Id" />
+
                 <!-- .img-push is used to add margin to elements next to floating images -->
                 <div class="img-push">
                     <div class="row">
                         <div class="col-md-11">
-                            <input type="text" class="form-control form-control-sm" placeholder="Press enter to post comment">
+                            <input asp-for="Answer.AnswerDescription" type="text" class="form-control form-control-sm" placeholder="Press enter to post comment">
                         </div>
                         <div class="col-md-1">
                             <input type="submit" value="Answer" class="btn-sm btn-primary" />
                         </div>
                     </div>
                 </div>
-
             </form>
         </div>
         <!-- /.card-footer -->

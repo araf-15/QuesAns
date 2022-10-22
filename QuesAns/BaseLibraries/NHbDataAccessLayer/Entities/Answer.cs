@@ -8,7 +8,7 @@ namespace NHbDataAccessLayer.Entities
     {
         public virtual Guid Id { get; set; }
         public virtual string AnswerDescription { get; set; }
-        public virtual string AnswerTime { get; set; }
+        public virtual DateTime AnswerTime { get; set; }
 
         public virtual Guid AnswerById { get; set; }
         public virtual User AnswerBy { get; set; }

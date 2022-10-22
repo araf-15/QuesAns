@@ -117,6 +117,18 @@ namespace QuesAnsLib.Services.Implementations
             return answerList;
         }
 
+        public async Task<object> AddAnswer(AnswerBO model)
+        {
+            return await _quesAnsUnitOfWork.AnswerRepository.Add(new Answer
+            {
+                Id = model.Id,
+                AnswerById = model.AnsweById,
+                AnswerDescription = model.AnswerDescription,
+                AnswerTime = model.AsnwerTime,
+                QuestionId = model.QuestionId
+            });
+        }
+
 
 
         #endregion

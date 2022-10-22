@@ -31,6 +31,7 @@ namespace QuesAnsLib.Services.IServices
 
         #region Answer Services
         List<Answer> GetAnswers(Guid questionId);
+        Task<object> AddAnswer(AnswerBO model);
         #endregion
 
     }

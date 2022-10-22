@@ -9,7 +9,7 @@ namespace QuesAnsLib.BusinessObjects
     {
         public Guid Id { get; set; }
         public string AnswerDescription { get; set; }
-        public string AsnwerTime { get; set; }
+        public DateTime AsnwerTime { get; set; }
 
         //----------------Foreign Key-----------------
         public Guid AnsweById { get; set; }
