@@ -4,7 +4,6 @@
     ViewData["Title"] = "Question";
 }
 
-
 <div class="col-md-12">
     <!-- Box Comment -->
     <div class="card card-widget">
@@ -16,7 +15,6 @@
                 </span><br />
                 <h3><b>Q: @Model.QuesTitle</b></h3>
             </div>
-
             @*class="username"*@
         </div>
         <!-- /.card-header -->
@@ -25,19 +23,28 @@
             <p>@Model.QuesDescription</p>
         </div><hr />
         <!-- /.card-body -->
-        <div class="card-footer card-comments">
-            <div class="card-comment">
-                @*<div class="comment-text">
-                    <span class="username">
-                        Maria Gonzales
-                        <span class="text-muted float-right">8:03 PM Today</span>
-                    </span>
-                    It is a long established fact that a reader will be distracted
-                    by the readable content of a page when looking at its layout.
-                </div>*@
-            </div>
-            <!-- /.card-comment -->
-        </div>
+
+        @{
+            if (Model.Answers.Count > 0)
+            {
+                foreach (var answer in Model.Answers)
+                {
+                    <div class="card-footer card-comments">
+                        <div class="card-comment">
+                            <div class="comment-text">
+                                <span class="username">
+                                    @answer.AnswerBy.FirstName  @answer.AnswerBy.LastName<br />
+                                    <small>@answer.AnswerBy.InstituteName</small>
+                                    <span class="text-muted float-right">@answer.AsnwerTime</span>
+                                </span>
+                                @answer.AnswerDescription
+                            </div>
+                        </div>
+                        <!-- /.card-comment -->
+                    </div>
+                }
+            }
+        }
         <!-- /.card-footer -->
         <div class="card-footer">
             <form action="#" method="post">

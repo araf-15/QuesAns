@@ -20,6 +20,7 @@ namespace QuesAns.Areas.Teacher.Models
         public string QuesTitle { get; set; }
         public string QuesDescription { get; set; }
         public DateTime QuesTime { get; set; }
+        public AnswerVM Answer { get; set; }
 
         //--------------FK------------------------------
         public Guid QuesById { get; set; }
@@ -74,6 +75,7 @@ namespace QuesAns.Areas.Teacher.Models
         public void GetAnswerList(Guid questionId)
         {
             var answersEO = _quesAnsService.GetAnswers(questionId);
+            Answers = new List<AnswerVM>();
             foreach (var answer in answersEO)
             {
                 var answerVM = new AnswerVM();
@@ -83,6 +85,8 @@ namespace QuesAns.Areas.Teacher.Models
                 answerVM.AsnwerTime = answer.AnswerTime;
                 answerVM.AnsweById = answer.AnswerById;
                 answerVM.QuestionId = answer.QuestionId;
+                var userEO = _quesAnsService.GetUserEO(answer.AnswerById);
+                answerVM.AnswerBy = userEO;
 
                 Answers.Add(answerVM);
             }

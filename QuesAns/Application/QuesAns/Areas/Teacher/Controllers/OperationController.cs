@@ -24,6 +24,7 @@ namespace QuesAns.Areas.Teacher.Controllers
             return View();
         }
 
+        [HttpGet]
         public async Task<IActionResult> ProvideAnswer(Guid questionId)
         {
             if (HttpContext.Session.GetString("Id") != null)
@@ -34,6 +35,7 @@ namespace QuesAns.Areas.Teacher.Controllers
                 var quesBy = _quesAnsService.GetUserEO(model.QuesById);
                 model.QuesBy = quesBy;
                 model.GetAnswerList(questionId);
+                //var answerBy = _quesAnsService.GetUserEO(model.A);
 
                 return View(model);
             }
@@ -42,5 +44,14 @@ namespace QuesAns.Areas.Teacher.Controllers
                 return RedirectToAction("Login", "Account", new { area = "" });
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ProvideAnswer(AnswerVM model)
+        {
+
+            return View();
+        }
+
+
     }
 }
